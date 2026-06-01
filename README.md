@@ -63,15 +63,27 @@ This research evaluates how different chunking approaches and modern embedding m
 2. Combine with hybrid search and a reranker for best results.
 3. This approach is particularly valuable for smart contract auditing, code reuse, and AI coding assistants.
 
+
 ## Repository Structure
+```text
 solidity-semantic-search-evaluation/
 ├── README.md
-├── data/                  # queries, ground truth, extracted chunks
-├── src/                   # parser, embedding, evaluation scripts
-├── notebooks/             # Jupyter analysis
+├── data/
+│   ├── queries/
+│   ├── ground_truth/
+│   └── extracted_chunks/
+├── src/
+│   ├── parser/
+│   ├── embedding/
+│   └── evaluation/
+├── notebooks/
+│   └── analysis.ipynb
 └── requirements.txt
-text## Links
+
+```
+**Links:**
 - OpenZeppelin: https://github.com/OpenZeppelin/openzeppelin-contracts
 - Aave V3: https://github.com/aave/aave-v3-core
+  
 
 **License:** MIT
