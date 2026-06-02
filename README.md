@@ -73,6 +73,9 @@ Hybrid retrieval approaches combining BM25 and vector search are also expected t
 ```text
 solidity-semantic-search-evaluation/
 ├── README.md
+├── research.md
+├── LICENSE
+├── requirements.txt
 ├── data/
 │   ├── queries.csv
 │   ├── extracted_chunks_examples.json
@@ -81,8 +84,20 @@ solidity-semantic-search-evaluation/
 │   ├── parser.py
 │   ├── embed.py
 │   └── eval.py
-└── requirements.txt
 ```
+
+## Research Report
+
+Detailed analysis, methodology, and findings are available in:
+
+- [research.md](research.md)
+
+The report discusses:
+- Solidity semantic search challenges
+- Function-level vs contract-level chunking
+- Embedding model selection
+- Hybrid retrieval approaches
+- Practical recommendations for Web3 RAG systems
 
 ## References
 - OpenZeppelin: https://github.com/OpenZeppelin/openzeppelin-contracts
