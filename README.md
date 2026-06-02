@@ -1,4 +1,7 @@
 # Function-Level vs Contract-Level Chunking for Semantic Search in Solidity
+![Status](https://img.shields.io/badge/Data%20Forge-Week%204-blue)
+![Language](https://img.shields.io/badge/Python-3.11-green)
+![Domain](https://img.shields.io/badge/Web3-Solidity-orange)
 
 **Author:** AlexIT  
 **Competition:** Data Forge — Week 4 (June 2026)  
@@ -52,10 +55,11 @@ The project evaluates:
 
 across multiple embedding models and chunking strategies.
 
-### Key Insights
-- **Function-level chunking** significantly outperforms Contract-level (+25–45% improvement).
-- **Voyage-code-3** is the clear winner for Solidity code retrieval.
-- Hybrid search (BM25 + Vector) + reranking provides additional gains.
+### Expected Outcomes
+
+Based on prior research in code retrieval and RAG systems, function-level chunking is expected to outperform contract-level chunking due to improved semantic granularity.
+
+Hybrid retrieval approaches combining BM25 and vector search are also expected to improve ranking quality.
 
 ## Conclusions & Recommendations
 
@@ -79,7 +83,7 @@ solidity-semantic-search-evaluation/
 └── requirements.txt
 ```
 
-## Links
+## References
 - OpenZeppelin: https://github.com/OpenZeppelin/openzeppelin-contracts
 - Aave V3: https://github.com/aave/aave-v3-core
   
