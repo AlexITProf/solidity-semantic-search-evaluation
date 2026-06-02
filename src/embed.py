@@ -28,7 +28,7 @@ def get_openai_embeddings(texts):
 def get_jina_embeddings(texts):
     """Get embeddings using Jina Code model"""
     client = JinaClient(token=os.getenv("JINA_API_KEY"))
-    # Example call - adjust according to actual Jina API
+    # Illustrative example
     result = client.embeddings.create(
         input=texts,
         model="jina-embeddings-v3"
