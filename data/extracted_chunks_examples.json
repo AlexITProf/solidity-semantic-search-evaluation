@@ -1,0 +1,20 @@
+[
+  {
+    "file": "OpenZeppelin/ReentrancyGuard.sol",
+    "chunk_type": "function-level",
+    "content": "/// @dev Prevents reentrancy attacks. \nmodifier nonReentrant() {\n    require(_status != _ENTERED, \"ReentrancyGuard: reentrant call\");\n    _status = _ENTERED;\n    _;\n    _status = _NOT_ENTERED;\n}",
+    "embedding_model": "voyage-code-3"
+  },
+  {
+    "file": "OpenZeppelin/Ownable.sol",
+    "chunk_type": "function-level",
+    "content": "function owner() public view virtual returns (address) {\n    return _owner;\n}\n\nmodifier onlyOwner() {\n    require(owner() == _msgSender(), \"Ownable: caller is not the owner\");\n    _;\n}",
+    "embedding_model": "voyage-code-3"
+  },
+  {
+    "file": "Aave/FlashLoanLogic.sol",
+    "chunk_type": "hybrid",
+    "content": "contract FlashLoanLogic {\n    function calculateFlashLoanFee(...) internal ... {\n        // premium calculation logic\n    }\n}",
+    "embedding_model": "voyage-code-3"
+  }
+]
