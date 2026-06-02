@@ -1,0 +1,10 @@
+voyageai
+openai
+jina
+pandas
+numpy
+scikit-learn
+tree-sitter
+tree-sitter-solidity
+requests
+python-dotenv
