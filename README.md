@@ -61,11 +61,12 @@ Based on prior research in code retrieval and RAG systems, function-level chunki
 
 Hybrid retrieval approaches combining BM25 and vector search are also expected to improve ranking quality.
 
-## Conclusions & Recommendations
+## Future Work
 
-1. For production RAG systems in Web3 — use **Voyage-code-3 + Function-level chunking**.
-2. Combine with hybrid search and a reranker for best results.
-3. This approach is particularly valuable for smart contract auditing, code reuse, and AI coding assistants.
+- Full evaluation on OpenZeppelin and Aave V3.
+- Comparison of embedding models.
+- Hybrid retrieval experiments.
+- Reranking evaluation.
 
 ## Repository Structure
 
