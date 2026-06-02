@@ -10,6 +10,8 @@ Solidity smart contracts have a unique structure: short functions, heavy boilerp
 
 This research evaluates how different chunking approaches and modern embedding models perform specifically on Solidity code.
 
+This project was created for the Data Forge Week 4 competition and explores practical retrieval techniques for Solidity smart contracts used in modern Web3 systems.
+
 ## Key Contributions
 
 - Custom ground-truth dataset of **25 real-world audit-style queries**.
@@ -40,17 +42,15 @@ This research evaluates how different chunking approaches and modern embedding m
 - MRR (Mean Reciprocal Rank)
 - NDCG@10
 
-## Results
+### Evaluation Plan
 
-**Main Results (averaged across dataset):**
+The project evaluates:
+- Recall@5
+- Recall@10
+- MRR
+- NDCG@10
 
-| Model                          | Chunking Type     | Recall@5 | MRR    | NDCG@10 |
-|--------------------------------|-------------------|----------|--------|---------|
-| Voyage-code-3                 | Function-level    | **0.84** | **0.72** | **0.79** |
-| Voyage-code-3                 | Hybrid            | 0.81     | 0.69   | 0.76    |
-| Jina Code                     | Function-level    | 0.76     | 0.63   | 0.71    |
-| OpenAI text-embedding-3-large | Function-level    | 0.70     | 0.58   | 0.65    |
-| Voyage-code-3                 | Contract-level    | 0.57     | 0.46   | 0.53    |
+across multiple embedding models and chunking strategies.
 
 ### Key Insights
 - **Function-level chunking** significantly outperforms Contract-level (+25–45% improvement).
@@ -63,25 +63,23 @@ This research evaluates how different chunking approaches and modern embedding m
 2. Combine with hybrid search and a reranker for best results.
 3. This approach is particularly valuable for smart contract auditing, code reuse, and AI coding assistants.
 
-
 ## Repository Structure
+
 ```text
 solidity-semantic-search-evaluation/
 ├── README.md
 ├── data/
-│   ├── queries/
-│   ├── ground_truth/
-│   └── extracted_chunks/
+│   ├── queries.csv
+│   ├── extracted_chunks_examples.json
+│   └── results_summary.csv
 ├── src/
-│   ├── parser/
-│   ├── embedding/
-│   └── evaluation/
-├── notebooks/
-│   └── analysis.ipynb
+│   ├── parser.py
+│   ├── embed.py
+│   └── eval.py
 └── requirements.txt
-
 ```
-**Links:**
+
+## Links
 - OpenZeppelin: https://github.com/OpenZeppelin/openzeppelin-contracts
 - Aave V3: https://github.com/aave/aave-v3-core
   
