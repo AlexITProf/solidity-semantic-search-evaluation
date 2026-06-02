@@ -1,207 +1,289 @@
-# Research Findings: Function-Level Chunking for Solidity Semantic Search
+# Research Findings: Function-Level vs Contract-Level Chunking for Solidity Semantic Search
 
-**Author:** AlexIT
+**Author:** AlexIT  
 **Competition:** Data Forge — Week 4 (June 2026)
 
 ---
 
-# Abstract
+## Abstract
 
-Modern Web3 applications rely on increasingly complex Solidity codebases. Traditional keyword-based search methods often fail to identify semantically similar implementations when variable names, comments, or code structure differ across projects.
+Semantic search has become a critical component of modern Retrieval-Augmented Generation (RAG) systems, especially for large codebases where traditional keyword search often fails to identify conceptually similar implementations.
 
-This research explores how chunking strategies influence semantic retrieval quality for Solidity smart contracts and examines the suitability of modern embedding models for Web3-focused Retrieval-Augmented Generation (RAG) systems.
+This research explores how different chunking strategies affect retrieval quality for Solidity smart contracts and evaluates their practical suitability for Web3 development, smart contract auditing, and AI coding assistants.
 
----
-
-# Why Solidity Requires Specialized Retrieval
-
-Unlike traditional application code, Solidity contracts contain:
-
-* Short but highly meaningful functions
-* Security-critical modifiers
-* NatSpec documentation
-* Reusable protocol patterns
-* Large amounts of boilerplate
-
-Developers and auditors frequently need to locate logic that is conceptually similar rather than textually identical.
-
-Examples include:
-
-* Reentrancy protection
-* Ownership validation
-* Token transfer mechanisms
-* Flash-loan fee calculations
-* Access-control patterns
-
-These use cases make semantic retrieval particularly valuable.
+The primary focus is understanding whether function-level chunking provides better semantic retrieval than contract-level indexing when working with real-world DeFi codebases.
 
 ---
 
-# Chunking Strategies
+## Background
 
-## Contract-Level Chunking
+Solidity code differs significantly from traditional application code.
 
-The entire contract is indexed as a single document.
+Smart contracts often contain:
 
-### Advantages
+- Security-critical logic
+- Reusable protocol patterns
+- Access-control mechanisms
+- NatSpec documentation
+- Complex inheritance structures
+- Financial calculations
 
-* Full context preserved
-* Simple implementation
+Developers and auditors frequently search for behavior rather than exact text matches.
 
-### Limitations
+Typical examples include:
 
-* Excessive noise
-* Reduced retrieval precision
-* Large embedding payloads
+- Reentrancy protection
+- Ownership verification
+- Token transfer logic
+- Flash-loan fee calculations
+- Access-control implementations
 
-For large DeFi protocols, a single contract may contain multiple unrelated logical components.
-
----
-
-## Function-Level Chunking
-
-Each function, modifier, or logical block is embedded independently.
-
-### Advantages
-
-* High semantic precision
-* Better retrieval granularity
-* Lower token consumption
-
-This approach aligns closely with how auditors and developers reason about smart contracts.
-
-Example targets:
-
-* `nonReentrant`
-* `onlyOwner`
-* `safeTransfer`
-* Fee calculation logic
+These use cases make semantic retrieval particularly important.
 
 ---
 
-## Hybrid Chunking
+## Chunking Strategies
 
-Hybrid chunking combines:
+### Contract-Level Chunking
 
-* Function-level embeddings
-* Additional surrounding context
+In this approach, an entire Solidity contract is treated as a single document and embedded as one vector.
 
-This preserves local semantic information while maintaining awareness of contract-level relationships.
+#### Advantages
+
+- Maximum context preservation
+- Simpler implementation
+- Fewer indexed documents
+
+#### Limitations
+
+- Large contracts introduce significant noise
+- Retrieval precision decreases
+- Important functions become diluted inside larger contexts
+
+For modern DeFi protocols, a single contract may contain dozens of unrelated logical components.
 
 ---
 
-# Embedding Models Considered
+### Function-Level Chunking
 
-## Voyage-code-3
+Each function is indexed independently together with relevant metadata such as:
 
-Designed specifically for source code retrieval.
+- Function signature
+- NatSpec comments
+- Modifiers
+- Local context
 
-Strengths:
+#### Advantages
 
-* Strong code understanding
-* Large context support
-* Optimized retrieval quality
+- Higher retrieval precision
+- Better semantic granularity
+- Smaller embedding payloads
+- Improved relevance ranking
+
+This strategy aligns closely with how developers and auditors reason about smart contract logic.
+
+Example retrieval targets:
+
+- `nonReentrant`
+- `onlyOwner`
+- `safeTransfer`
+- Fee calculation functions
+- Access-control checks
+
+---
+
+### Hybrid Chunking
+
+Hybrid chunking combines function-level indexing with a limited amount of surrounding context.
+
+Typical implementations include:
+
+- Function body
+- Nearby declarations
+- Related state variables
+- Contract metadata
+
+This approach attempts to balance precision and contextual understanding.
+
+---
+
+## Embedding Models
+
+### Voyage-code-3
+
+Voyage-code-3 is designed specifically for source-code retrieval.
+
+Potential strengths include:
+
+- Strong code understanding
+- Optimized semantic retrieval
+- Better handling of programming constructs
+- Suitability for code-focused RAG systems
 
 Potential applications:
 
-* Audit assistants
-* Solidity RAG systems
-* Code similarity search
+- Audit assistants
+- Code search platforms
+- AI development tools
 
 ---
 
-## Jina Code Embeddings
+### Jina Code Embeddings
 
-Modern embedding models with strong retrieval performance and efficient deployment options.
+Jina provides modern embedding models aimed at efficient semantic retrieval.
 
-Strengths:
+Potential strengths:
 
-* Competitive retrieval quality
-* Flexible infrastructure integration
-* Suitable for large-scale indexing
+- Competitive retrieval quality
+- Flexible deployment options
+- Scalable indexing workflows
 
----
-
-## OpenAI text-embedding-3-large
-
-A strong general-purpose baseline.
-
-Strengths:
-
-* Broad language support
-* Mature ecosystem
-* Reliable semantic representations
-
-Limitations:
-
-* Not specifically optimized for Solidity code
+These models are increasingly used in production retrieval systems.
 
 ---
 
-# Why Hybrid Search Matters
+### OpenAI text-embedding-3-large
 
-Pure vector search often misses exact identifiers such as:
+OpenAI's embedding model serves as a strong general-purpose baseline.
 
-* Function names
-* Error messages
-* Contract names
-* Protocol-specific terminology
+Potential strengths:
 
-Production systems increasingly combine:
+- Broad language understanding
+- Mature ecosystem
+- Reliable semantic representations
 
-1. BM25 keyword retrieval
+Potential limitation:
+
+- Not specifically optimized for Solidity or source-code retrieval.
+
+---
+
+## Hybrid Search and Reranking
+
+Pure vector search is often insufficient for production systems.
+
+Important identifiers such as:
+
+- Contract names
+- Function names
+- Error codes
+- Protocol-specific terminology
+
+may benefit from lexical retrieval.
+
+A common production architecture combines:
+
+1. BM25 retrieval
 2. Vector similarity search
 3. Reranking
 
-This approach improves both precision and recall.
+This hybrid approach can improve both recall and ranking quality.
 
 ---
 
-# Practical Applications
+## Practical Applications
 
-The findings are particularly relevant for:
+### Smart Contract Auditing
 
-## Smart Contract Auditing
+Auditors frequently need to locate similar implementations across multiple repositories.
 
-Finding similar implementations across repositories.
-
-## AI Coding Assistants
-
-Providing relevant Solidity context to LLMs.
-
-## Internal Developer Search
-
-Searching large protocol codebases.
-
-## Vulnerability Research
-
-Locating security-sensitive patterns across projects.
+Function-level retrieval can improve the discovery of relevant security patterns.
 
 ---
 
-# Limitations
+### AI Coding Assistants
 
-This project represents an exploratory evaluation rather than a production benchmark.
+Large language models require relevant context.
 
-Future work should include:
+Semantic retrieval enables assistants to locate:
 
-* Larger query datasets
-* Additional Solidity repositories
-* Expanded model comparisons
-* Reranking evaluation
-* Vector database benchmarking
+- Existing implementations
+- Security mechanisms
+- Protocol-specific patterns
+
+before generating responses.
 
 ---
 
-# Conclusion
+### Internal Developer Search
 
-Function-level chunking appears to be the most promising strategy for Solidity semantic search due to its alignment with the logical structure of smart contracts.
+Protocol teams often maintain large codebases.
 
-For production-grade Web3 RAG systems, the most practical architecture is expected to combine:
+Semantic search can significantly reduce time spent locating relevant business logic.
 
-* Function-level chunking
-* Hybrid retrieval (BM25 + vector search)
-* Reranking
-* Code-specialized embedding models
+---
 
-This combination offers a strong foundation for smart contract auditing, code discovery, and AI-assisted development workflows.
+### Vulnerability Research
+
+Researchers can use retrieval systems to identify:
+
+- Repeated security patterns
+- Similar implementations
+- Potential attack surfaces
+
+across multiple projects.
+
+---
+
+## Expected Outcomes
+
+Based on prior research in code retrieval and Retrieval-Augmented Generation systems, function-level chunking is expected to outperform contract-level chunking due to improved semantic granularity.
+
+Hybrid retrieval approaches combining BM25 and vector search are also expected to improve ranking quality.
+
+Code-specialized embedding models are expected to provide stronger retrieval performance than general-purpose embedding models when working with Solidity code.
+
+---
+
+## Limitations
+
+This project represents an exploratory research effort rather than a full production benchmark.
+
+Current limitations include:
+
+- Small evaluation dataset
+- Limited protocol coverage
+- No large-scale benchmark execution
+- Limited model comparison scope
+
+Future work should expand both the dataset and evaluation methodology.
+
+---
+
+## Future Work
+
+Potential future directions include:
+
+- Larger Solidity datasets
+- Additional DeFi protocols
+- Reranking evaluation
+- Vector database benchmarking
+- Cost-performance analysis
+- Long-context retrieval experiments
+
+---
+
+## Conclusion
+
+Function-level chunking appears to be a promising strategy for Solidity semantic search because it closely matches the logical structure of smart contracts.
+
+For production-grade Web3 retrieval systems, a combination of:
+
+- Function-level chunking
+- Hybrid retrieval
+- Reranking
+- Code-specialized embedding models
+
+is expected to provide the strongest foundation for smart contract auditing, code discovery, and AI-assisted development workflows.
+
+---
+
+## Repository
+
+GitHub Repository:
+
+https://github.com/AlexITProf/solidity-semantic-search-evaluation
+
+README:
+
+https://github.com/AlexITProf/solidity-semantic-search-evaluation/blob/main/README.md
